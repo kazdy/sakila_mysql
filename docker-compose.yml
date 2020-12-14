@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+
+  db:
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    restart: always
+    environment:
+      MYSQL_DATABASE: sakila
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./dbdata:/var/lib/mysql
+      - ./sakila-schema.sql:/docker-entrypoint-initdb.d/1_sakila.sql
+      - ./sakila-data.sql:/docker-entrypoint-initdb.d/2_sakila.sql
+    ports: 
+       - "3306:3306"
